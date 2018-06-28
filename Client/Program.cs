@@ -20,22 +20,22 @@ namespace Client
                 return;
             }
 
-            // request token
+            // request token  (GrantTypes.ClientCredentials)
             //var tokenClient = new TokenClient(disco.TokenEndpoint, "client", "secret");
             //var tokenResponse = await tokenClient.RequestClientCredentialsAsync("api1");
 
-            //if (tokenResponse.IsError)
-            //{
-            //    Console.WriteLine(tokenResponse.Error);
-            //    return;
-            //}
-
-            //Console.WriteLine(tokenResponse.Json);
-            //Console.WriteLine("\n\n");
-
-            // request token
+            // request token (GrantTypes.ResourceOwnerPassword)
             var tokenClient = new TokenClient(disco.TokenEndpoint, "ro.client", "secret");
             var tokenResponse = await tokenClient.RequestResourceOwnerPasswordAsync("alice", "password");
+
+            if (tokenResponse.IsError)
+            {
+                Console.WriteLine(tokenResponse.Error);
+                return;
+            }
+
+            Console.WriteLine(tokenResponse.Json);
+            Console.WriteLine("\n\n");
 
             // call api
             var client = new HttpClient();
